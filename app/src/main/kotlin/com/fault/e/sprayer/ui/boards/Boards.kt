@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,7 +67,8 @@ fun BoardScreen(modifier: Modifier = Modifier) {
 fun BoardCard(modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.padding(4.dp),
-        color = Color.White
+        color = MaterialTheme.colorScheme.surface,
+        shape = MaterialTheme.shapes.small
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -95,13 +97,13 @@ fun BoardCard(modifier: Modifier = Modifier) {
 
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun BoardCardPreview() {
     BoardCard(Modifier.width(290.dp))
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun BoardsScreenPreview() {
     BoardScreen()
