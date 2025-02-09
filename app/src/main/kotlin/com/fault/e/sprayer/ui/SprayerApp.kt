@@ -19,15 +19,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import com.fault.e.sprayer.ui.boards.BoardScreen
 import com.fault.e.sprayer.ui.theme.SprayerTheme
 
@@ -38,20 +35,16 @@ import com.fault.e.sprayer.ui.theme.SprayerTheme
 @Composable
 fun SprayerApp() {
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text("Boards", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                    Text("Boards")
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
-                )
             )
         },
         bottomBar = {
-            BottomAppBar (
-                containerColor = Color.White
-            ){}
+            BottomAppBar {}
         }
     ) { innerPadding ->
         BoardScreen(
@@ -63,7 +56,10 @@ fun SprayerApp() {
 @Preview(showBackground = true)
 @Composable
 fun AppPreview() {
-    SprayerTheme {
+    SprayerTheme(
+        dynamicColor = false,
+        darkTheme = false
+    ) {
         SprayerApp()
     }
 }
