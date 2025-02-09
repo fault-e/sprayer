@@ -32,12 +32,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fault.e.sprayer.R
 
 /**
@@ -57,7 +55,7 @@ fun BoardScreen(modifier: Modifier = Modifier) {
             BoardCard()
         }
     }
-  }
+}
 
 /**
  * A card with a brief board description
@@ -82,8 +80,8 @@ fun BoardCard(modifier: Modifier = Modifier) {
             )
             Spacer(Modifier.padding(4.dp))
             Column {
-                Text("Dream Gym", fontSize = 12.sp)
-                Text("Crusher Maker", fontSize = 16.sp)
+                Text("Dream Gym", style = MaterialTheme.typography.labelMedium)
+                Text("Crusher Maker", style = MaterialTheme.typography.bodyLarge)
             }
             Spacer(Modifier.padding(16.dp))
             Column(
