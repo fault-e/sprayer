@@ -40,7 +40,7 @@ fun SprayerApp() {
             CenterAlignedTopAppBar(
                 title = {
                     Text("Boards")
-                },
+                }
             )
         },
         bottomBar = {

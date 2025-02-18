@@ -16,15 +16,30 @@
 package com.fault.e.sprayer
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.fault.e.sprayer.data.remote.NetworkDataSource
 import com.fault.e.sprayer.ui.SprayerApp
 import com.fault.e.sprayer.ui.theme.SprayerTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val networkDataSource = NetworkDataSource()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val boards = networkDataSource.getBoards()
+                Log.i("Ktor", boards.toString())
+            }
+        }
+
         enableEdgeToEdge()
         setContent {
             SprayerTheme {
