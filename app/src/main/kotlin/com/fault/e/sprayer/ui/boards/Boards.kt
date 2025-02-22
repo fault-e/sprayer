@@ -16,53 +16,76 @@
 package com.fault.e.sprayer.ui.boards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fault.e.sprayer.R
+import com.fault.e.sprayer.model.Board
 
 /**
  * A screen with a list of boards available for a user
  * @param modifier Modifier applied to the screen layout
+ * @param boardsViewModel Provides a list of available boards
  */
 @Composable
-fun BoardScreen(modifier: Modifier = Modifier) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
-    ) {
-        item {
-            BoardCard()
+fun BoardScreen(modifier: Modifier = Modifier, boardsViewModel: BoardsViewModel = viewModel()) {
+    // TODO: The state will be passed instead of the view model when the navigation is implemented
+    val boardsState by boardsViewModel.boardsState.collectAsStateWithLifecycle()
+
+    when (val state = boardsState) {
+        is BoardsState.Loading -> {
+            Column(
+                modifier = modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text("Loading boards...", style = MaterialTheme.typography.bodyLarge)
+            }
         }
-        item {
-            BoardCard()
+
+        is BoardsState.Success -> {
+            LazyColumn(
+                modifier = modifier,
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
+            ) {
+                items(state.boards) {
+                    BoardCard(it)
+                }
+            }
         }
     }
 }
 
 /**
  * A card with a brief board description
+ * @param board Board to display
  * @param modifier Modifier applied to the card layout
  */
 @Composable
-fun BoardCard(modifier: Modifier = Modifier) {
+fun BoardCard(board: Board, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.padding(4.dp),
         color = MaterialTheme.colorScheme.surface,
@@ -80,8 +103,8 @@ fun BoardCard(modifier: Modifier = Modifier) {
             )
             Spacer(Modifier.padding(4.dp))
             Column {
-                Text("Dream Gym", style = MaterialTheme.typography.labelMedium)
-                Text("Crusher Maker", style = MaterialTheme.typography.bodyLarge)
+                Text(board.gym, style = MaterialTheme.typography.labelMedium)
+                Text(board.name, style = MaterialTheme.typography.bodyLarge)
             }
             Spacer(Modifier.padding(16.dp))
             Column(
@@ -98,9 +121,17 @@ fun BoardCard(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun BoardCardPreview() {
-    BoardCard(Modifier.width(290.dp))
+    BoardCard(
+        Board(
+            gym = "My Gym",
+            name = "My Board",
+            image = ""
+        ),
+        Modifier.width(290.dp)
+    )
 }
 
+//TODO: Implement previews for each state when the navigation is implemented
 @Preview
 @Composable
 fun BoardsScreenPreview() {

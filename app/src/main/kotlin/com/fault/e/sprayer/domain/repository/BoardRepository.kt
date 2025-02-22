@@ -13,29 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fault.e.sprayer.data.remote.model
+package com.fault.e.sprayer.domain.repository
 
 import com.fault.e.sprayer.model.Board
-import kotlinx.serialization.Serializable
 
 /**
- * Board DTO
- * @param gym Gym name
- * @param image Board image
- * @param name Board name
+ * Board repository
  */
-@Serializable
-data class BoardDto(
-    val gym: String,
-    val image: String,
-    val name: String
-)
-
-/**
- * Converts [BoardDto] to [Board]
- */
-fun BoardDto.asExternalModel() = Board(
-    gym = gym,
-    image = image,
-    name = name
-)
+interface BoardRepository {
+    /**
+     * Gets all available boards
+     */
+    suspend fun getBoards(): List<Board>
+}
