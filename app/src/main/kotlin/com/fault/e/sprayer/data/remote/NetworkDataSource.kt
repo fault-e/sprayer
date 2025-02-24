@@ -16,56 +16,21 @@
 package com.fault.e.sprayer.data.remote
 
 import com.fault.e.sprayer.data.remote.model.BoardDto
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.get
-import io.ktor.http.URLProtocol
-import io.ktor.http.path
-import io.ktor.serialization.kotlinx.json.json
 
 /**
  * Backend API
- * TODO: inject the client with Hilt
  */
-class NetworkDataSource {
-    private val client = HttpClient(OkHttp) {
-        engine {
-            config {
-                followRedirects(true)
-            }
-        }
-        install(ContentNegotiation) {
-            json()
-        }
-        defaultRequest {
-            url {
-                protocol = URLProtocol.HTTP
-                host = "10.0.2.2:3000/api/v1"
-            }
-        }
-    }
-
+interface NetworkDataSource {
     /**
      * Retrieves a list of available boards
      * @return List of boards
      */
-    suspend fun getBoards(): List<BoardDto> = client.get {
-        url {
-            path("/boards")
-        }
-    }.body()
+    suspend fun getBoards(): List<BoardDto>
 
     /**
      * Retrieves a board by its id
      * @param id Board id
      * @return Board info
      */
-    suspend fun getBoard(id: Int): BoardDto = client.get {
-        url {
-            path("/boards/$id")
-        }
-    }.body()
+    suspend fun getBoard(id: Int): BoardDto
 }

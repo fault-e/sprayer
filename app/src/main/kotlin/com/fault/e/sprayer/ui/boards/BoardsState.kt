@@ -13,29 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fault.e.sprayer.data.remote.model
+package com.fault.e.sprayer.ui.boards
 
 import com.fault.e.sprayer.model.Board
-import kotlinx.serialization.Serializable
 
 /**
- * Board DTO
- * @param gym Gym name
- * @param image Board image
- * @param name Board name
+ * State of the boards screen
  */
-@Serializable
-data class BoardDto(
-    val gym: String,
-    val image: String,
-    val name: String
-)
-
-/**
- * Converts [BoardDto] to [Board]
- */
-fun BoardDto.asExternalModel() = Board(
-    gym = gym,
-    image = image,
-    name = name
-)
+sealed interface BoardsState {
+    /**
+     * Loading state
+     */
+    data object Loading : BoardsState
+    /**
+     * Success state
+     * @param boards List of boards to show
+     */
+    data class Success(val boards: List<Board>) : BoardsState
+}
